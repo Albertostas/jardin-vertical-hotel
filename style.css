@@ -1,0 +1,102 @@
+/* Configuraciones base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #2c3e50;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 600px; /* Para que se vea bien si alguien lo abre en PC, centrado como un móvil */
+    margin: 0 auto;
+}
+
+/* Encabezado */
+header {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #1e3b2e;
+}
+
+p {
+    color: #5b7065;
+    font-size: 1rem;
+}
+
+/* Tarjetas de estadísticas */
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-left: 5px solid #27ae60;
+}
+
+.number-wrapper {
+    color: #27ae60;
+    margin-bottom: 5px;
+}
+
+.counter {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.unit {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.stat-card p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Títulos de sección */
+h2 {
+    font-size: 1.5rem;
+    color: #1e3b2e;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* ANIMACIONES (Magia) */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px); /* Empieza 40px más abajo */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Esta clase se la añadirá JavaScript cuando el usuario haga scroll */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
