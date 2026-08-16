@@ -7,45 +7,391 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Encabezado con el Logo y el Compromiso -->
-    <header class="fade-in">
-        <div class="logo">
-            <!-- Aquí pondremos la imagen real de vuestro logo más adelante -->
-            🌱 Logo del Hotel
-        </div>
-        <h1>Nuestro Compromiso Natural</h1>
-        <p>Cuidamos del medioambiente y de tu salud. Este jardín vertical vivo purifica el aire de nuestra recepción en tiempo real.</p>
-    </header>
+   
+    <div class="logo-container fade-in">
+        <!-- Es buena práctica que los nombres de archivo no tengan espacios, pero HTML5 lo lee bien si está entre comillas -->
+        <img src="Photos/logoDonAngelNuevo.png" alt="Logo Hotel Don Angel" class="logo-img">
+    </div>
 
+    <!-- Encabezado con el Compromiso (El rectángulo de texto) -->
+    <header class="fade-in">
+        <h1>Nuestro Compromiso Natural</h1>
+        <p>Cuidamos del medioambiente y de tu salud. Nuestros más de 150 m² de jardín vertical vivo purifican el aire de nuestra recepción en tiempo real.</p>
+    </header>
+    <!-- Encabezado con el Logo y el Compromiso -->
+    
     <!-- Sección de los Contadores -->
     <section class="stats-container">
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-target="2300">0</span><span class="unit">g</span>
+                <span class="counter" data-type="co2">0.000</span><span class="unit">g</span>
             </div>
-            <p>CO₂ Filtrado al año</p>
+            <p>CO₂ Filtrado desde instalación</p>
         </div>
         
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-target="1700">0</span><span class="unit">g</span>
+                <span class="counter" data-type="o2">0.000</span><span class="unit">g</span>
             </div>
-            <p>Oxígeno Generado al año</p>
+            <p>Oxígeno Generado desde instalación</p>
         </div>
 
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-target="130">0</span><span class="unit">g</span>
+                <span class="counter" data-type="toxins">0.000</span><span class="unit">g</span>
             </div>
-            <p>Toxinas Retenidas al año</p>
+            <p>Toxinas Retenidas desde instalación</p>
         </div>
     </section>
 
-    <!-- Sección de Plantas (Preparada para luego) -->
-    <section class="plants-section fade-in">
-        <h2>Nuestro Ecosistema</h2>
-        <p>Desliza para descubrir las especies botánicas que componen nuestro muro.</p>
-        <!-- Aquí inyectaremos los datos de tus PDFs después -->
+    <!-- Sección de Plantas -->
+    <section class="plants-section">
+        <div class="fade-in">
+            <h2>Nuestro Ecosistema</h2>
+            <p style="margin-bottom: 25px;">Toca cualquier planta para descubrir más sobre ella.</p>
+        </div>
+
+        <div class="plants-list">
+            <!-- JARDÍN INTERIOR -->
+            <div class="plant-card fade-in">
+                <img src="photos/epipremnum-aureum.webp" alt="Epipremnum aureum" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Epipremnum aureum</h3>
+                    <p class="short-desc">Trepadora purificadora.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Planta trepadora extremadamente resistente. Es una de las mejores especies para purificar el aire de interiores, eliminando toxinas como el formaldehído.</p>
+                        <a href="https://es.wikipedia.org/wiki/Epipremnum_aureum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/aplenium-parvati.jpg" alt="Asplenium parvati" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Asplenium parvati</h3>
+                    <p class="short-desc">Helecho elegante.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Un helecho frondoso de hojas brillantes y textura muy elegante. Requiere humedad constante y aporta un toque boscoso al muro.</p>
+                        <a href="https://es.wikipedia.org/wiki/Asplenium" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/spathiphyllum.jpg" alt="Spathiphyllum" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Spathiphyllum</h3>
+                    <p class="short-desc">Flores blancas filtrantes.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Conocido como Espatifilo, destaca por sus elegantes flores blancas. Tiene una altísima capacidad de filtrado de contaminantes ambientales.</p>
+                        <a href="https://es.wikipedia.org/wiki/Spathiphyllum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/nephrolepis-macho-fern.jpg" alt="Nephrolepis biserrata macho" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Nephrolepis biserrata</h3>
+                    <p class="short-desc">Helecho gigante.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Un helecho robusto de gran tamaño y majestuoso porte colgante. Sus frondas largas crean un efecto cascada espectacular en el jardín.</p>
+                        <a href="https://es.wikipedia.org/wiki/Nephrolepis_biserrata" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/nephrolepis-e.webp" alt="Nephrolepis exaltata" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Nephrolepis exaltata</h3>
+                    <p class="short-desc">Helecho de Boston.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>El clásico helecho de Boston. Es ideal para mantener y regular la humedad en espacios interiores, además de ser muy decorativo.</p>
+                        <a href="https://es.wikipedia.org/wiki/Nephrolepis_exaltata" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/chlorophytum.jpg" alt="Chlorophytum comosum" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Chlorophytum comosum</h3>
+                    <p class="short-desc">La cinta devoradora de CO₂.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Popularmente conocida como "cinta" o "malamadre". Es una campeona absoluta en absorción de toxinas y monóxido de carbono.</p>
+                        <a href="https://es.wikipedia.org/wiki/Chlorophytum_comosum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/scindapsus.webp" alt="Scindapsus enjoy" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Scindapsus enjoy</h3>
+                    <p class="short-desc">Poto matizado.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Una hermosa variedad de poto caracterizada por las llamativas manchas blancas y plateadas en sus hojas. Muy resistente y trepadora.</p>
+                        <a href="https://es.wikipedia.org/wiki/Epipremnum_aureum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/alocasias.jpeg" alt="Alocasias mix" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Alocasias mix</h3>
+                    <p class="short-desc">Oreja de elefante.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Plantas de hojas grandes, exóticas y nervaduras marcadas. Aportan un toque tropical y escultural único a la composición del muro.</p>
+                        <a href="https://es.wikipedia.org/wiki/Alocasia" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/monstera-deliciosa.jpg" alt="Monstera deliciosa" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Monstera deliciosa</h3>
+                    <p class="short-desc">Icono tropical.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Un icono inconfundible por sus inmensas hojas perforadas (fenestraciones). Una planta selvática que domina visualmente el espacio.</p>
+                        <a href="https://es.wikipedia.org/wiki/Monstera_deliciosa" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/anthurium.jpg" alt="Anthurium andraeanum" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Anthurium andraeanum</h3>
+                    <p class="short-desc">Flores de color intenso.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Aporta un espectacular toque de color con sus brácteas rojas y brillantes. Destaca enormemente sobre el fondo verde del jardín.</p>
+                        <a href="https://es.wikipedia.org/wiki/Anthurium_andraeanum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/medinilla.webp" alt="Medinilla magnifica" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Medinilla magnifica</h3>
+                    <p class="short-desc">Racimos rosados.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Una especie exótica y espectacular, famosa por sus grandes y pesados racimos de flores rosadas que cuelgan elegantemente.</p>
+                        <a href="https://es.wikipedia.org/wiki/Medinilla_magnifica" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/chamaedorea-elegans-mart.jpeg" alt="Chamaedorea elegans" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Chamaedorea elegans</h3>
+                    <p class="short-desc">Palmera oxigenante.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Pequeña y elegante palmera de interior. Es excelente para limpiar el aire y añade una textura plumosa y ligera al entorno.</p>
+                        <a href="https://es.wikipedia.org/wiki/Chamaedorea_elegans" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="Photos/aglaonema.jpeg" alt="Aglaonema / Philodendron Selloum" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Aglaonema / Philodendron</h3>
+                    <p class="short-desc">Follaje denso.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Plantas de follaje muy denso, decorativo y tremendamente resistentes a las condiciones de interior. Aportan masa forestal al conjunto.</p>
+                        <a href="https://es.wikipedia.org/wiki/Aglaonema" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JARDÍN EXTERIOR -->
+            <div class="plant-card fade-in">
+                <img src="Photos/hedera-hibernica.webp" alt="Hedera hibernica" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Hedera hibernica</h3>
+                    <p class="short-desc">Hiedra tapizante.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Hiedra atlántica de hoja grande. Es una excelente tapizante de rápido crecimiento que protege el muro y sirve de base verde.</p>
+                        <a href="https://es.wikipedia.org/wiki/Hedera_hibernica" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="Photos/phlectranthus.webp" alt="Phlectranthus ciliatus" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Phlectranthus ciliatus</h3>
+                    <p class="short-desc">Envés púrpura.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Planta colgante muy vistosa. Llama la atención por el contraste entre el verde de sus hojas y el llamativo color púrpura de su envés.</p>
+                        <a href="https://es.wikipedia.org/wiki/Plectranthus_ciliatus" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="Photos/asparagus.jpg" alt="Asparagus Sp./ asparagus Myersii" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Asparagus Myersii</h3>
+                    <p class="short-desc">Follaje de cola de zorro.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>De follaje plumoso y muy denso, parecido a la cola de un zorro. Aporta una textura suave y esponjosa al jardín exterior.</p>
+                        <a href="https://es.wikipedia.org/wiki/Asparagus_densiflorus" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/nephrolepis-c.jpg" alt="Neprolephis cordata" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Neprolephis cordata</h3>
+                    <p class="short-desc">Helecho exterior.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Un helecho denso y sumamente resistente que, a diferencia de otras variedades, se adapta perfectamente a las condiciones de exterior.</p>
+                        <a href="https://es.wikipedia.org/wiki/Nephrolepis_cordifolia" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/pilea.webp" alt="Pilea peperomioide" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Pilea peperomioide</h3>
+                    <p class="short-desc">La planta del dinero.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Conocida como la planta china del dinero. Es muy popular por sus simpáticas hojas redondeadas en forma de moneda.</p>
+                        <a href="https://es.wikipedia.org/wiki/Pilea_peperomioides" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/salvia-nemerosa.webp" alt="Salvia nemerosa" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Salvia nemerosa</h3>
+                    <p class="short-desc">Espigas púrpuras.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Aporta estructura vertical al jardín y produce unas hermosas espigas de flores púrpuras que atraen a polinizadores.</p>
+                        <a href="https://es.wikipedia.org/wiki/Salvia_nemorosa" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/fatsia.jpg" alt="Fatsia Japonica" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Fatsia Japonica</h3>
+                    <p class="short-desc">Arbusto escultural.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Arbusto de grandes y brillantes hojas palmeadas. Su presencia es muy escultural y da un aire japonés al entorno.</p>
+                        <a href="https://es.wikipedia.org/wiki/Fatsia_japonica" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/limonium.jpg" alt="Limonium Perezzi" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Limonium Perezzi</h3>
+                    <p class="short-desc">Flores azules duraderas.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Especie muy resistente, originaria de zonas costeras. Destaca por sus duraderas y llamativas inflorescencias de color azul púrpura.</p>
+                        <a href="https://es.wikipedia.org/wiki/Limonium_perezii" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/erigeron.jpg" alt="Erigeron Karviskianus" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Erigeron Karviskianus</h3>
+                    <p class="short-desc">Margaritas silvestres.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Produce pequeñas flores similares a margaritas que cambian de blanco a rosado, floreciendo profusamente durante meses.</p>
+                        <a href="https://es.wikipedia.org/wiki/Erigeron_karvinskianus" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/plectranthus.jpg" alt="Plectranthus var. incienso" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Plectranthus incienso</h3>
+                    <p class="short-desc">Aroma inconfundible.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Posee un follaje sutilmente matizado en blanco y verde. Su principal atractivo es el intenso y agradable aroma a incienso que desprende.</p>
+                        <a href="https://es.wikipedia.org/wiki/Plectranthus_coleoides" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/pelargonium.webp" alt="Pelargonium Graveolens" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Pelargonium Graveolens</h3>
+                    <p class="short-desc">Geranio aromático.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Conocido como el geranio de olor. Sus hojas son sumamente aromáticas al tacto, desprendiendo fragancias que recuerdan a la rosa o al limón.</p>
+                        <a href="https://es.wikipedia.org/wiki/Pelargonium_graveolens" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/plebodium.jpg" alt="Plebodium Davana" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Plebodium Davana</h3>
+                    <p class="short-desc">Helecho azulado.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Un helecho de textura rizada y espectacular color verde azulado. Su aspecto rústico y prehistórico lo hace muy especial.</p>
+                        <a href="https://es.wikipedia.org/wiki/Phlebodium_aureum" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card fade-in">
+                <img src="photos/tradescantia.jpg" alt="Tradescantia Pallida" class="plant-img">
+                <div class="plant-info slide-in-delayed">
+                    <h3>Tradescantia Pallida</h3>
+                    <p class="short-desc">Contraste púrpura.</p>
+                    <div class="expand-hint">Ver más ▾</div>
+                    <div class="detailed-info">
+                        <p>Destaca poderosamente en cualquier composición vegetal por el intenso color púrpura oscuro de sus hojas alargadas.</p>
+                        <a href="https://es.wikipedia.org/wiki/Tradescantia_pallida" target="_blank" class="wiki-link">Leer en Wikipedia ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script src="script.js"></script>

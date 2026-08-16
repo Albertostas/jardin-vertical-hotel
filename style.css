@@ -7,26 +7,41 @@
 }
 
 body {
-    background-color: #f4f7f6;
+    /* Fondo temporal para ver el efecto cristal. Cámbialo por la ruta de tu foto real */
+    background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1000&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    
     color: #2c3e50;
     line-height: 1.6;
     padding: 20px;
-    max-width: 600px; /* Para que se vea bien si alguien lo abre en PC, centrado como un móvil */
+    max-width: 600px; /* Centrado y estilo móvil al verlo en PC */
     margin: 0 auto;
+    overflow-y: scroll; /* Obliga a mantener el espacio de la barra para evitar saltos horizontales */
 }
 
-/* Encabezado */
+/* --- ENCABEZADO Y LOGO --- */
+.logo-container {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.logo-img {
+    max-width: 220px; 
+    width: 100%;      
+    height: auto;     
+}
+
 header {
     text-align: center;
-    margin-top: 40px;
     margin-bottom: 40px;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #27ae60;
-    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 h1 {
@@ -38,9 +53,10 @@ h1 {
 p {
     color: #5b7065;
     font-size: 1rem;
+    font-weight: 500;
 }
 
-/* Tarjetas de estadísticas */
+/* --- TARJETAS DE ESTADÍSTICAS (Glassmorphism) --- */
 .stats-container {
     display: flex;
     flex-direction: column;
@@ -49,38 +65,53 @@ p {
 }
 
 .stat-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); 
     padding: 25px 20px;
     border-radius: 16px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-left: 5px solid #27ae60;
 }
 
 .number-wrapper {
-    color: #27ae60;
+    color: #1e3b2e;
     margin-bottom: 5px;
 }
 
 .counter {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 800;
 }
 
+.decimals {
+    font-size: 0.65em;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
 .unit {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-left: 4px;
+    color: #27ae60;
 }
 
 .stat-card p {
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: #1e3b2e;
 }
 
-/* Títulos de sección */
+/* --- SECCIÓN BOTÁNICA (Grid Expansible Avanzado) --- */
+.plants-section {
+    margin-bottom: 60px;
+}
+
 h2 {
     font-size: 1.5rem;
     color: #1e3b2e;
@@ -88,15 +119,166 @@ h2 {
     text-align: center;
 }
 
-/* ANIMACIONES (Magia) */
+.plants-section > .fade-in p {
+    text-align: center;
+}
+
+.plants-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    grid-auto-flow: dense; /* Rellena los huecos automáticamente */
+}
+
+/* Tarjeta Base */
+.plant-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    overflow: hidden; 
+    cursor: pointer;
+    transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* Imagen Base */
+.plant-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover; 
+    background-color: #e2e8e4; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.plant-info {
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.plant-info h3 {
+    font-size: 0.95rem;
+    color: #1e3b2e;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.short-desc {
+    font-size: 0.8rem;
+    color: #4a6356;
+    margin-bottom: 5px;
+    animation: fadeInQuick 0.5s ease forwards;
+}
+
+.expand-hint {
+    font-size: 0.75rem;
+    color: #27ae60;
+    font-weight: 600;
+    animation: fadeInQuick 0.5s ease forwards;
+}
+
+/* --- ESTADO EXPANDIDO (Diseño inamovible) --- */
+.plant-card.expanded {
+    grid-column: span 2; 
+    flex-direction: row; 
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.95); 
+}
+
+.plant-card.expanded .plant-img {
+    /* Matématicamente esto mantiene la foto EXACTAMENTE del mismo tamaño en píxeles,
+       impidiendo el bug de que se vuelva gigante. */
+    width: calc(50% - 7.5px); 
+    height: auto;
+    border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    flex-shrink: 0; 
+}
+
+.plant-card.expanded .plant-info {
+    text-align: left; 
+    padding: 15px;
+}
+
+/* Ocultar elementos cortos al expandir */
+.plant-card.expanded .short-desc,
+.plant-card.expanded .expand-hint {
+    display: none;
+}
+
+/* Mostrar la info detallada */
+.detailed-info {
+    display: none;
+    flex-direction: column;
+}
+
+.plant-card.expanded .detailed-info {
+    display: flex;
+    /* Animación retrasada para que el cuadro blanco crezca primero */
+    animation: fadeInContent 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+}
+
+.detailed-info p {
+    font-size: 0.85rem;
+    color: #2c3e50;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+/* Botón de Wikipedia */
+.wiki-link {
+    display: inline-block;
+    align-self: flex-start;
+    background: #27ae60;
+    color: white;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.3s ease;
+}
+
+.wiki-link:hover {
+    background: #1e8449;
+}
+
+/* --- ANIMACIONES GENERALES --- */
 .fade-in {
     opacity: 0;
-    transform: translateY(40px); /* Empieza 40px más abajo */
+    transform: translateY(40px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-/* Esta clase se la añadirá JavaScript cuando el usuario haga scroll */
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
 }
+
+.slide-in-delayed {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.5s;
+}
+
+.plant-card.visible .slide-in-delayed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+@keyframes fadeInContent {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
