@@ -30,17 +30,24 @@ function calculateRealValue(type) {
     return valInterior + valExterior;
 }
 
-// NUEVA FUNCIÓN: Formatea el número (1.234,567) y hace pequeños los decimales
+// NUEVA FUNCIÓN DINÁMICA: Formatea el número y convierte a Kg si es gigante
 function formatNumberWithSpan(value, decimals) {
-    // Separa el número en enteros y decimales
-    const parts = value.toFixed(decimals).split('.');
+    let displayValue = value;
+    let unit = 'g'; // Unidad por defecto
     
-    // Pone el punto de los miles (formato español)
+    // Si el valor llega a 1.000.000 de gramos, pasamos a Kilos para no romper el diseño
+    if (value >= 10000000) { 
+        displayValue = value / 1000;
+        unit = 'kg';
+    }
+    
+    // Separa el número en enteros y decimales
+    const parts = displayValue.toFixed(decimals).split('.');
     const integerPart = parseInt(parts[0]).toLocaleString('es-ES'); 
     const decimalPart = parts[1];
     
-    // Devuelve el HTML con la coma y la clase para el tamaño
-    return `${integerPart}<span class="decimals">,${decimalPart}</span>`;
+    // Devuelve el HTML inyectando también la unidad (g o kg) de forma dinámica
+    return `${integerPart}<span class="decimals">,${decimalPart}</span><span class="unit">${unit}</span>`;
 }
 
 // Observador para activar la animación al hacer scroll
@@ -100,11 +107,10 @@ function startLiveUpdates(element, type, decimals) {
     requestAnimationFrame(update);
 }
 
-// 4. Interactividad PRO: FLIP Restringido (Sin bugs de recolocación)
+// 4. Interactividad: FLIP con Coordenadas Puras
 const plantCards = document.querySelectorAll('.plant-card');
 let isAnimating = false; 
 
-// Guardamos el orden original
 plantCards.forEach((card, index) => {
     card.style.order = index;
     card.dataset.index = index;
@@ -117,34 +123,32 @@ plantCards.forEach(card => {
         const isExpanded = card.classList.contains('expanded');
         const currentlyExpanded = document.querySelector('.plant-card.expanded');
 
-        // ESCENARIO A: Cierra la tarjeta abierta
+        // ESCENARIO A: Cierra la tarjeta
         if (isExpanded) {
-            // Pasamos 'card' para decirle a JS: "Solo a esta le permites cambiar de tamaño"
             await runSmoothFlip(() => {
                 card.classList.remove('expanded');
-                card.style.order = card.dataset.index; 
+                // FIX: Restauramos el orden de TODAS las tarjetas para evitar que la hermana se quede cruzada
+                plantCards.forEach(c => c.style.order = c.dataset.index); 
             }, card); 
             return;
         } 
         
-        // ESCENARIO B: Hay otra abierta. Se cierra, respira, y se abre la nueva.
+        // ESCENARIO B: Cambio entre tarjetas
         if (currentlyExpanded) {
-            // Cerramos la vieja
             await runSmoothFlip(() => {
                 currentlyExpanded.classList.remove('expanded');
-                currentlyExpanded.style.order = currentlyExpanded.dataset.index;
+                // FIX: Restauramos el orden de TODAS
+                plantCards.forEach(c => c.style.order = c.dataset.index);
             }, currentlyExpanded);
             
-            // EL RESPIRO: 150ms de pausa
             await new Promise(resolve => setTimeout(resolve, 150));
         }
         
-        // ESCENARIO C: Abrimos la nueva tarjeta
+        // ESCENARIO C: Abre nueva tarjeta
         await runSmoothFlip(() => {
             card.classList.add('expanded');
             const index = parseInt(card.dataset.index);
             
-            // Si está a la derecha, la pasamos a la izquierda y empujamos la otra
             if (index % 2 !== 0) { 
                 const sibling = plantCards[index - 1];
                 if (sibling) {
@@ -156,80 +160,85 @@ plantCards.forEach(card => {
     });
 });
 
-// El motor FLIP con bloqueo de tamaño para las tarjetas hermanas
+// NUEVA FUNCIÓN MÁGICA: offsetTop y offsetWidth son píxeles puros, enteros, y no se ven afectados por el scroll.
+function getAbsoluteRect(el) {
+    return {
+        top: el.offsetTop,
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+        height: el.offsetHeight
+    };
+}
+
+// El motor FLIP definitivo con Escudo Universal
 async function runSmoothFlip(domUpdateFunction, targetCard) {
     isAnimating = true;
     
-    // 1. FOTOGRAFÍA INICIAL
-    const rects = new Map();
+    // 1. FOTO INICIAL
+    const firstRects = new Map();
     plantCards.forEach(c => {
-        rects.set(c, {
-            card: c.getBoundingClientRect(),
-            img: c.querySelector('.plant-img').getBoundingClientRect()
+        firstRects.set(c, {
+            card: getAbsoluteRect(c),
+            img: getAbsoluteRect(c.querySelector('.plant-img'))
         });
     });
 
-    // 2. CONGELACIÓN: Forzamos la imagen a mantener píxeles exactos
+    // 2. CAMBIO DE DOM 
+    domUpdateFunction();
+    document.body.offsetHeight; // Obligamos al navegador a aplicar el grid
+
+    // 3. FOTO FINAL
+    const lastRects = new Map();
+    plantCards.forEach(c => {
+        lastRects.set(c, {
+            card: getAbsoluteRect(c)
+        });
+    });
+
+    // 4. CONGELACIÓN DE IMÁGENES (Como tú bien viste que era necesario)
     plantCards.forEach(c => {
         const img = c.querySelector('.plant-img');
-        const initialImg = rects.get(c).img;
-        img.style.width = `${initialImg.width}px`;
-        img.style.height = `${initialImg.height}px`;
+        const firstImg = firstRects.get(c).img;
+        img.style.width = `${firstImg.width}px`;
+        img.style.height = `${firstImg.height}px`;
         img.style.flexShrink = '0'; 
     });
 
-    // 3. CAMBIO: Aplicamos clases de CSS
-    domUpdateFunction();
-
-    // 4. ANIMACIÓN FLIP
+    // 5. ANIMACIÓN FLIP (ESCUDO UNIVERSAL)
     const animations = [];
     plantCards.forEach(c => {
-        const first = rects.get(c);
-        const last = c.getBoundingClientRect();
+        const first = firstRects.get(c).card;
+        const last = lastRects.get(c).card;
         
-        const deltaX = first.card.left - last.left;
-        const deltaY = first.card.top - last.top;
+        const deltaX = first.left - last.left;
+        const deltaY = first.top - last.top;
         
-        // LA CLAVE: Solo comprobamos si cambia de tamaño si es la tarjeta protagonista
-        const isTarget = (c === targetCard);
+        c.style.zIndex = (c === targetCard) ? '10' : '5';
         
-        // Si se mueve de su sitio O es la protagonista, animamos
-        if (deltaX !== 0 || deltaY !== 0 || isTarget) {
-            c.style.zIndex = isTarget ? '10' : '5';
-            
-            const keyframes = [
-                { transform: `translate(${deltaX}px, ${deltaY}px)` }
-            ];
-            
-            // SOLO la tarjeta protagonista (la que tocamos) puede expandir/contraer su cuadro blanco
-            if (isTarget) {
-                keyframes[0].width = `${first.card.width}px`;
-                keyframes[0].height = `${first.card.height}px`;
-                keyframes.push({ 
-                    transform: `translate(0px, 0px)`,
-                    width: `${last.width}px`,
-                    height: `${last.height}px`
-                });
-            } else {
-                // Las demás hermanas solo se deslizan (manteniendo su cuadrado intacto)
-                keyframes.push({ transform: `translate(0px, 0px)` });
-            }
-            
-            const anim = c.animate(keyframes, {
-                duration: 650, 
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)' 
-            });
-            
-            anim.onfinish = () => { c.style.zIndex = ''; };
-            animations.push(anim.finished);
-        }
+        // LA CLAVE: Ya no hay condicional. 
+        // Aplicamos la animación a TODAS las tarjetas. 
+        // Las que están arriba quietas tendrán deltaX=0, deltaY=0 y su mismo tamaño.
+        // Pero al animarse, WAAPI bloquea sus dimensiones, haciéndolas inmunes al Grid.
+        const keyframes = [
+            { transform: `translate(${deltaX}px, ${deltaY}px)`, width: `${first.width}px`, height: `${first.height}px` },
+            { transform: `translate(0px, 0px)`, width: `${last.width}px`, height: `${last.height}px` }
+        ];
+        
+        const anim = c.animate(keyframes, {
+            duration: 650, 
+            easing: 'cubic-bezier(0.25, 1, 0.5, 1)' 
+        });
+        
+        anim.onfinish = () => { c.style.zIndex = ''; };
+        animations.push(anim.finished);
     });
     
-    // 5. ESPERA Y LIMPIEZA
+    // 6. ESPERA Y LIMPIEZA
     if (animations.length > 0) {
         await Promise.all(animations);
     }
     
+    // Quitamos los candados a las imágenes
     plantCards.forEach(c => {
         const img = c.querySelector('.plant-img');
         img.style.width = '';
@@ -239,3 +248,106 @@ async function runSmoothFlip(domUpdateFunction, targetCard) {
     
     isAnimating = false;
 }
+
+// 5. STICKY HEADER (Motor Suavizado, Sin Fantasmas y Tracker a Media Pantalla)
+const stickyHeader = document.getElementById('sticky-header');
+const stickyLeft = document.querySelector('.sticky-left');
+const stickyStats = document.querySelectorAll('.sticky-stat'); 
+
+const stickyLogoMold = document.querySelector('.sticky-logo'); 
+const mainLogoImg = document.querySelector('.logo-img'); 
+const floatingLogo = document.getElementById('floating-logo'); 
+
+const mainStatCards = document.querySelectorAll('.stat-card'); 
+
+const plantsSection = document.querySelector('.plants-section'); 
+const subtitleTrack = document.querySelector('.subtitle-track'); 
+
+// Arrancamos los mini-contadores
+document.querySelectorAll('.sticky-right .counter').forEach(counter => {
+    const type = counter.getAttribute('data-type');
+    startLiveUpdates(counter, type, 3);
+});
+
+function calculateScrollProgress(element, startFade, endFade) {
+    if (!element) return 0;
+    const rect = element.getBoundingClientRect();
+    let progress = (startFade - rect.top) / (startFade - endFade);
+    return Math.max(0, Math.min(1, progress));
+}
+
+function onScrollRender() {
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    
+    // 1. EL LOGO VOLADOR 
+    const linearProgress = Math.max(0, Math.min(1, scrollY / 350));
+    const morphProgress = 1 - Math.pow(1 - linearProgress, 5);
+
+    // 2. TRACKER DE SECCIONES (Ahora salta en el ecuador de la pantalla)
+    // 2. TRACKER DE SECCIONES (Ajustado milimétricamente a tu captura)
+    if (plantsSection && subtitleTrack) {
+        const rect = plantsSection.getBoundingClientRect();
+        
+        // En lugar de usar la mitad de la pantalla, fijamos el "láser" a 280px del techo.
+        // Cuando la sección suba y cruce esa línea de 280px, el texto rotará.
+        const triggerPoint = 250; 
+        
+        if (rect.top < triggerPoint) {
+            subtitleTrack.classList.add('show-ecosistema'); 
+        } else {
+            subtitleTrack.classList.remove('show-ecosistema'); 
+        }
+    }
+
+    const co2Progress = mainStatCards[0] ? calculateScrollProgress(mainStatCards[0], 150, 40) : 0;
+    const o2Progress = mainStatCards[1] ? calculateScrollProgress(mainStatCards[1], 150, 40) : 0;
+
+    const maxProgress = Math.max(morphProgress, co2Progress, o2Progress);
+    
+    stickyHeader.style.background = `rgba(255, 255, 255, ${maxProgress * 0.85})`;
+    stickyHeader.style.backdropFilter = `blur(${maxProgress * 12}px)`;
+    stickyHeader.style.webkitBackdropFilter = `blur(${maxProgress * 12}px)`;
+    stickyHeader.style.borderBottom = `1px solid rgba(255, 255, 255, ${maxProgress * 0.5})`;
+    stickyHeader.style.boxShadow = `0 4px 15px rgba(0, 0, 0, ${maxProgress * 0.05})`;
+
+    // 3. ANIMACIÓN DEL LOGO (Sin duplicados fantasma)
+    if (mainLogoImg && stickyLogoMold && floatingLogo) {
+        // SOLUCIÓN: Ocultamos el logo original de la web SIEMPRE. 
+        // El clon volador asume el 100% del protagonismo desde el píxel 0.
+        mainLogoImg.style.opacity = 0; 
+        
+        stickyLeft.style.opacity = morphProgress; 
+        
+        const sourceRect = mainLogoImg.getBoundingClientRect();
+        const targetRect = stickyLogoMold.getBoundingClientRect();
+        
+        if (targetRect.width > 0) {
+            const currentWidth = sourceRect.width + (targetRect.width - sourceRect.width) * morphProgress;
+            const currentTop = sourceRect.top + (targetRect.top - sourceRect.top) * morphProgress;
+            const currentLeft = sourceRect.left + (targetRect.left - sourceRect.left) * morphProgress;
+            
+            floatingLogo.style.width = `${currentWidth}px`;
+            floatingLogo.style.top = `${currentTop}px`;
+            floatingLogo.style.left = `${currentLeft}px`;
+            
+            // El clon siempre es visible
+            floatingLogo.style.opacity = 1;
+        }
+    }
+
+    // 4. ANIMACIONES INDIVIDUALES PÍLDORAS
+    if (mainStatCards[0] && stickyStats[0]) {
+        mainStatCards[0].style.opacity = 1 - co2Progress;
+        stickyStats[0].style.opacity = co2Progress;
+        stickyStats[0].style.transform = `translateY(${(1 - co2Progress) * 15}px)`;
+    }
+
+    if (mainStatCards[1] && stickyStats[1]) {
+        mainStatCards[1].style.opacity = 1 - o2Progress;
+        stickyStats[1].style.opacity = o2Progress;
+        stickyStats[1].style.transform = `translateY(${(1 - o2Progress) * 15}px)`;
+    }
+}
+
+window.addEventListener('scroll', () => requestAnimationFrame(onScrollRender), { passive: true });
+setTimeout(onScrollRender, 10);

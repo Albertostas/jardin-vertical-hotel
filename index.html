@@ -7,9 +7,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   
+   <!-- --- BARRA FLOTANTE INTELIGENTE --- -->
+<!-- --- BARRA FLOTANTE (Fondo pantalla completa, contenido centrado) --- -->
+<div id="sticky-header" class="sticky-header">
+    <div class="sticky-inner">
+        
+       <div class="sticky-left">
+            <img src="photos/logodonangelnuevo.png" alt="Logo" class="sticky-logo" style="opacity: 0;">
+            <!-- La ranura del texto rodante -->
+            <div class="subtitle-roller">
+                <div class="subtitle-track">
+                    <span class="sticky-subtitle">Nuestro Compromiso Natural</span>
+                    <span class="sticky-subtitle">Nuestro Ecosistema</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sticky-right">
+            <!-- Los contadores ahora son "píldoras" -->
+            <div class="sticky-stat pill">
+                <span class="stat-label">CO₂</span>
+                <span class="counter" data-type="co2">0</span>
+            </div>
+            <div class="sticky-stat pill">
+                <span class="stat-label">O₂</span>
+                <span class="counter" data-type="o2">0</span>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- EL CLON ANIMADO: Este es el logo que veremos volar por la pantalla -->
+<img src="photos/logodonangelnuevo.png" id="floating-logo" class="floating-logo">
+
     <div class="logo-container fade-in">
-        <!-- Es buena práctica que los nombres de archivo no tengan espacios, pero HTML5 lo lee bien si está entre comillas -->
         <img src="Photos/logoDonAngelNuevo.png" alt="Logo Hotel Don Angel" class="logo-img">
     </div>
 
@@ -24,21 +56,21 @@
     <section class="stats-container">
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-type="co2">0.000</span><span class="unit">g</span>
+                <span class="counter" data-type="co2">0.000</span>
             </div>
             <p>CO₂ Filtrado desde instalación</p>
         </div>
         
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-type="o2">0.000</span><span class="unit">g</span>
+                <span class="counter" data-type="o2">0.000</span>
             </div>
             <p>Oxígeno Generado desde instalación</p>
         </div>
 
         <div class="stat-card fade-in">
             <div class="number-wrapper">
-                <span class="counter" data-type="toxins">0.000</span><span class="unit">g</span>
+                <span class="counter" data-type="toxins">0.000</span>
             </div>
             <p>Toxinas Retenidas desde instalación</p>
         </div>
