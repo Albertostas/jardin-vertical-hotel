@@ -283,14 +283,10 @@ function onScrollRender() {
     const linearProgress = Math.max(0, Math.min(1, scrollY / 350));
     const morphProgress = 1 - Math.pow(1 - linearProgress, 5);
 
-    // 2. TRACKER DE SECCIONES (Ahora salta en el ecuador de la pantalla)
-    // 2. TRACKER DE SECCIONES (Ajustado milimétricamente a tu captura)
+    // 2. TRACKER DE SECCIONES 
     if (plantsSection && subtitleTrack) {
         const rect = plantsSection.getBoundingClientRect();
-        
-        // En lugar de usar la mitad de la pantalla, fijamos el "láser" a 280px del techo.
-        // Cuando la sección suba y cruce esa línea de 280px, el texto rotará.
-        const triggerPoint = 250; 
+        const triggerPoint = 220; 
         
         if (rect.top < triggerPoint) {
             subtitleTrack.classList.add('show-ecosistema'); 
@@ -310,18 +306,20 @@ function onScrollRender() {
     stickyHeader.style.borderBottom = `1px solid rgba(255, 255, 255, ${maxProgress * 0.5})`;
     stickyHeader.style.boxShadow = `0 4px 15px rgba(0, 0, 0, ${maxProgress * 0.05})`;
 
-    // 3. ANIMACIÓN DEL LOGO (Sin duplicados fantasma)
+    // 3. ANIMACIÓN DEL LOGO (Tu versión original perfecta, pero con escudo)
     if (mainLogoImg && stickyLogoMold && floatingLogo) {
-        // SOLUCIÓN: Ocultamos el logo original de la web SIEMPRE. 
-        // El clon volador asume el 100% del protagonismo desde el píxel 0.
-        mainLogoImg.style.opacity = 0; 
-        
-        stickyLeft.style.opacity = morphProgress; 
+        const isAtTop = scrollY < 2;
         
         const sourceRect = mainLogoImg.getBoundingClientRect();
         const targetRect = stickyLogoMold.getBoundingClientRect();
         
-        if (targetRect.width > 0) {
+        // EL ESCUDO: Solo interpolamos si la imagen original ya ha cargado (ancho > 0)
+        if (targetRect.width > 0 && sourceRect.width > 0) {
+            mainLogoImg.style.opacity = isAtTop ? 1 : 0;
+            floatingLogo.style.opacity = isAtTop ? 0 : 1;
+            
+            stickyLeft.style.opacity = morphProgress; 
+            
             const currentWidth = sourceRect.width + (targetRect.width - sourceRect.width) * morphProgress;
             const currentTop = sourceRect.top + (targetRect.top - sourceRect.top) * morphProgress;
             const currentLeft = sourceRect.left + (targetRect.left - sourceRect.left) * morphProgress;
@@ -329,9 +327,10 @@ function onScrollRender() {
             floatingLogo.style.width = `${currentWidth}px`;
             floatingLogo.style.top = `${currentTop}px`;
             floatingLogo.style.left = `${currentLeft}px`;
-            
-            // El clon siempre es visible
-            floatingLogo.style.opacity = 1;
+        } else {
+            // Si la imagen aún mide 0, forzamos que se vea el original y se oculte el clon
+            mainLogoImg.style.opacity = 1;
+            floatingLogo.style.opacity = 0;
         }
     }
 
@@ -349,5 +348,61 @@ function onScrollRender() {
     }
 }
 
+// 6. SISTEMA MULTI-IDIOMA INTELIGENTE 
+function initLanguageSystem() {
+    const browserLang = navigator.language.slice(0, 2);
+    const supportedLangs = ['es', 'ca', 'fr'];
+    let currentLang = supportedLangs.includes(browserLang) ? browserLang : 'en';
+
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const langToggleBtn = document.getElementById('lang-toggle');
+    const langOptions = document.getElementById('lang-options');
+    const currentLangLabel = document.getElementById('current-lang-label');
+
+    langToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        langOptions.classList.toggle('open');
+    });
+
+    document.addEventListener('click', () => {
+        langOptions.classList.remove('open');
+    });
+
+    function setLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        langButtons.forEach(btn => {
+            if (btn.dataset.lang === lang) {
+                btn.classList.add('active');
+                // Al no haber banderas, usamos textContent y lo ponemos en mayúsculas (EN, ES, CA...)
+                currentLangLabel.textContent = btn.textContent;
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        langOptions.classList.remove('open');
+    }
+
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            setLanguage(btn.dataset.lang);
+        });
+    });
+
+    setLanguage(currentLang);
+}
+
+window.addEventListener('DOMContentLoaded', initLanguageSystem);
+// Vinculamos eventos
 window.addEventListener('scroll', () => requestAnimationFrame(onScrollRender), { passive: true });
-setTimeout(onScrollRender, 10);
+window.addEventListener('resize', () => requestAnimationFrame(onScrollRender));
+
+requestAnimationFrame(onScrollRender);
+window.addEventListener('load', () => requestAnimationFrame(onScrollRender));
