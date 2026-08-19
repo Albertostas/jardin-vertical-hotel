@@ -251,26 +251,59 @@ header p, .plants-section > .fade-in:first-child p {
 }
 
 /* --- ESTADO EXPANDIDO (Diseño inamovible) --- */
+/* --- ESTADO EXPANDIDO (Diseño Inamovible + Scroll Interno) --- */
 .plant-card.expanded {
     grid-column: span 2; 
-    flex-direction: row; 
-    align-items: stretch;
+    
+    /* MAGIA 1: Cambiamos Flexbox por Grid. Esto permite bloquear la altura de la fila a la de la foto */
+    display: grid;
+    grid-template-columns: calc(50% - 7.5px) 1fr;
     background: rgba(255, 255, 255, 0.95); 
 }
 
 .plant-card.expanded .plant-img {
-    /* Matématicamente esto mantiene la foto EXACTAMENTE del mismo tamaño en píxeles,
-       impidiendo el bug de que se vuelva gigante. */
-    width: calc(50% - 7.5px); 
+    /* MAGIA 2: La foto manda. Es cuadrada sí o sí, y no se estira por culpa del texto. */
+    width: 100%; 
     height: auto;
+    aspect-ratio: 1 / 1;
     border-bottom: none;
     border-right: 1px solid rgba(255, 255, 255, 0.5);
-    flex-shrink: 0; 
+    
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .plant-card.expanded .plant-info {
     text-align: left; 
     padding: 15px;
+    
+    grid-column: 2;
+    grid-row: 1;
+    
+    /* Alineamos el texto arriba por si hay que hacer scroll */
+    justify-content: flex-start;
+    
+    /* MAGIA 3: Scroll Interno. Le decimos que empiece en 0 pero rellene hasta el 100% de la foto. 
+       Esto evita que el texto empuje la tarjeta para hacerla gigante. */
+    height: 0;
+    min-height: 100%;
+    overflow-y: auto;
+    
+    /* Estilos de barra de scroll genéricos */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(39, 174, 96, 0.4) transparent;
+}
+
+/* Diseño de la barrita para Webkit (iOS, Android, Chrome, Safari) */
+.plant-card.expanded .plant-info::-webkit-scrollbar {
+    width: 4px;
+}
+.plant-card.expanded .plant-info::-webkit-scrollbar-track {
+    background: transparent;
+}
+.plant-card.expanded .plant-info::-webkit-scrollbar-thumb {
+    background-color: rgba(39, 174, 96, 0.4);
+    border-radius: 10px;
 }
 
 /* Ocultar elementos cortos al expandir */
@@ -586,7 +619,6 @@ header p, .plants-section > .fade-in:first-child p {
     transform: scale(0.95); /* Efecto pulsación */
 }
 
-/* --- FOOTER / CRÉDITOS (Estilo Pastilla) --- */
 /* --- FOOTER / CRÉDITOS (Estilo Pastilla-Botón) --- */
 .site-footer {
     display: flex;
