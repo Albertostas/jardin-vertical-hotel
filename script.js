@@ -1,3 +1,27 @@
+// 0. COREOGRAFÍA DE CARGA INICIAL (Cascada)
+document.addEventListener('DOMContentLoaded', () => {
+    // Recopilamos los elementos en el orden exacto en el que queremos que aparezcan
+    const cascadeElements = [
+        document.querySelector('.logo-container'),
+        document.querySelector('header'),
+        ...document.querySelectorAll('.stat-card'),
+        document.querySelector('.plants-section > .fade-in:first-child')
+    ];
+
+    cascadeElements.forEach((el, index) => {
+        if (el) {
+            // Inyectamos un retraso escalonado (0s, 0.15s, 0.30s, etc.)
+            el.style.transitionDelay = `${index * 0.15}s`;
+            
+            // MAGIA LIMPIA: 2 segundos después, borramos el retraso. 
+            // Así, si el usuario sube y baja haciendo scroll más tarde, 
+            // las cosas volverán a aparecer al instante sin "lag".
+            setTimeout(() => {
+                el.style.transitionDelay = '';
+            }, 2000 + (index * 150));
+        }
+    });
+});
 // 1. Efecto Fade-In al hacer scroll
 const fadeElements = document.querySelectorAll('.fade-in');
 
@@ -305,6 +329,7 @@ function onScrollRender() {
     stickyHeader.style.webkitBackdropFilter = `blur(${maxProgress * 12}px)`;
     stickyHeader.style.borderBottom = `1px solid rgba(255, 255, 255, ${maxProgress * 0.5})`;
     stickyHeader.style.boxShadow = `0 4px 15px rgba(0, 0, 0, ${maxProgress * 0.05})`;
+    stickyHeader.style.setProperty('--bar-alpha', maxProgress);
 
     // 3. ANIMACIÓN DEL LOGO (Tu versión original perfecta, pero con escudo)
     if (mainLogoImg && stickyLogoMold && floatingLogo) {

@@ -7,19 +7,34 @@
 }
 
 body {
-    /* Fondo temporal para ver el efecto cristal. Cámbialo por la ruta de tu foto real */
-    background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1000&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-
     color: #2c3e50;
     line-height: 1.6;
     padding: 20px;
-    max-width: 600px; /* Centrado y estilo móvil al verlo en PC */
+    max-width: 600px;
     margin: 0 auto;
-    overflow-y: scroll; /* Obliga a mantener el espacio de la barra para evitar saltos horizontales */
-    animation: fadeInPage 0.5s ease-out forwards;
+    overflow-y: scroll;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: -2%; left: -2%; /* Ligeramente más grande para que los bordes borrosos no se metan en la pantalla */
+    width: 104%; height: 104%;
+    background-image: url('photos/background.webp'); /* Tu ruta optimizada */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    
+    /* Estado inicial y llamada a la animación */
+    opacity: 0;
+    filter: blur(0px);
+    animation: bgCascade 1.5s ease-out forwards;
+}
+
+@keyframes bgCascade {
+    0% { opacity: 0; filter: blur(0px); }
+    20% { opacity: 1; filter: blur(0px); }
+    100% { opacity: 1; filter: blur(8px); } /* Ajusta los 8px si lo quieres más o menos borroso */
 }
 
 @keyframes fadeInPage {
@@ -31,7 +46,7 @@ body {
 .logo-container {
     text-align: center;
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .logo-img {
@@ -40,48 +55,58 @@ body {
     height: auto;     
 }
 
+/* --- TEXTOS INTRODUCTORIOS  --- */
 header,
 .plants-section > .fade-in:first-child {
+    position: relative; /* Ayuda a contener el gradiente */
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     
-    /* El toque glass sutil: 85% opaco para máxima legibilidad, pero difuminando el fondo */
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* Aumentamos el padding para que el "foco de luz" tenga espacio de sobra para difuminarse */
+    padding: 15px 20px; 
     
-    /* El ADN visual del toggle: Borde verde sutil y forma de cápsula */
-    border: 1px solid rgba(39, 174, 96, 0.3);
-    border-radius: 35px; /* Curva suave y amigable */
-    padding: 25px 30px;
-    
-    /* Sombra elegante para separarlo de las hojas */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    /* Usamos closest-side para garantizar que el degradado muera en el borde sin cortarse */
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
 }
 
-/* Anulamos el margen extra que tenías directo en el HTML del Ecosistema para que respire simétricamente en su nueva cápsula */
+/* Anulamos el margen extra del Ecosistema */
 .plants-section > .fade-in:first-child p {
     margin-bottom: 0 !important;
 }
 
-h1 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #1e3b2e;
+h1, h2 {
+    font-size: 2rem; /* Un pelín más grande */
+    font-weight: 800; /* Extra grueso */
+    color: #0d1f16; /* Verde bosque casi negro para máximo contraste */
+    margin-bottom: 12px;
+    
+    /* Sombra multicapa: La 1ª hace de contorno sólido, las otras dos de resplandor */
+    text-shadow: 
+        0 0 2px rgba(255, 255, 255, 1), 
+        0 0 8px rgba(255, 255, 255, 0.9), 
+        0 4px 20px rgba(255, 255, 255, 0.8);
 }
 
-p {
-    color: #5b7065;
-    font-size: 1rem;
-    font-weight: 500;
+header p, .plants-section > .fade-in:first-child p {
+    color: #12261b; /* Más oscuro */
+    font-size: 1.05rem; /* Medio punto más grande para asegurar legibilidad */
+    font-weight: 600; 
+    
+    text-shadow: 
+        0 0 2px rgba(255, 255, 255, 1), 
+        0 0 6px rgba(255, 255, 255, 0.9), 
+        0 2px 15px rgba(255, 255, 255, 0.9);
 }
-
 /* --- TARJETAS DE ESTADÍSTICAS (Súper Píldoras Opacas) --- */
 .stats-container {
     display: flex;
     flex-direction: column;
     gap: 20px; /* Separación entre las píldoras gigantes */
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 /* La tarjeta se convierte en la cápsula gigante */
@@ -160,17 +185,6 @@ p {
     margin-bottom: 60px;
 }
 
-h2 {
-    font-size: 1.5rem;
-    color: #1e3b2e;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.plants-section > .fade-in p {
-    text-align: center;
-}
-
 .plants-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -178,16 +192,17 @@ h2 {
     grid-auto-flow: dense; /* Rellena los huecos automáticamente */
 }
 
-/* Tarjeta Base */
+/* Tarjeta Base - Cristal opaco para legibilidad perfecta */
 .plant-card {
     display: flex;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.65);
+    /* Subimos al 95% para tener un bloque casi blanco sólido pero muy elegante */
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Sombra un pelín más marcada */
+    border: 1px solid rgba(255, 255, 255, 1);
     overflow: hidden; 
     cursor: pointer;
     transition: background 0.6s ease, box-shadow 0.6s ease;
@@ -211,24 +226,27 @@ h2 {
     flex-grow: 1;
 }
 
+/* Textos de la tarjeta oscurecidos para máximo contraste */
 .plant-info h3 {
-    font-size: 0.95rem;
-    color: #1e3b2e;
+    font-size: 1rem; 
+    font-weight: 800; /* Más negrita para el título */
+    color: #152b21; /* Verde casi negro */
     margin-bottom: 4px;
     line-height: 1.2;
 }
 
 .short-desc {
     font-size: 0.8rem;
-    color: #4a6356;
+    color: #3d5448; /* Oscurecido */
+    font-weight: 500;
     margin-bottom: 5px;
     animation: fadeInQuick 0.5s ease forwards;
 }
 
 .expand-hint {
     font-size: 0.75rem;
-    color: #27ae60;
-    font-weight: 600;
+    color: #1e8449; /* Igualamos con el verde vibrante de los números del header */
+    font-weight: 700;
     animation: fadeInQuick 0.5s ease forwards;
 }
 
@@ -354,6 +372,7 @@ h2 {
     height: 55%; /* No ocupa todo el alto, queda más fina */
     width: 1px;
     background: rgba(30, 59, 46, 0.15); 
+    opacity: var(--bar-alpha, 0);
 }
 
 /* Izquierda: Logo y Text Roller */
@@ -478,6 +497,17 @@ h2 {
     flex-direction: column;
     align-items: flex-end;
     gap: 8px;
+
+    /* Oculto abajo del todo por defecto */
+    opacity: 0;
+    transform: translateY(100px);
+    
+    /* Animación: Espera 1.2s a que pase la cascada de las tarjetas, y entonces sube */
+    animation: slideUpLang 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+}
+
+@keyframes slideUpLang {
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* El menú desplegable */
@@ -556,8 +586,74 @@ h2 {
     transform: scale(0.95); /* Efecto pulsación */
 }
 
+/* --- FOOTER / CRÉDITOS (Estilo Pastilla) --- */
+/* --- FOOTER / CRÉDITOS (Estilo Pastilla-Botón) --- */
+.site-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    margin-bottom: 80px; 
+    padding: 20px;
+}
+
+/* La pastilla ahora es un enlace (a) gigante */
+.footer-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    border: 1px solid rgba(39, 174, 96, 0.3);
+    border-radius: 30px; 
+    padding: 14px 24px;
+    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-decoration: none; /* Quitamos el subrayado estándar de los links */
+    cursor: pointer;
+    
+    /* Transición suave estilo "muelle" */
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+/* El efecto visual al tocar en el móvil o pasar el ratón */
+.footer-pill:hover,
+.footer-pill:active {
+    transform: scale(1.04); /* La pastilla crece */
+    background: rgba(255, 255, 255, 0.95); /* Se vuelve más blanca */
+    border-color: rgba(39, 174, 96, 0.5); /* Borde un poco más vivo */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* La sombra se expande */
+}
+
+.footer-pill p {
+    font-size: 0.75rem; 
+    color: #3d5448; 
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Estilo del texto del email */
+.footer-email {
+    display: flex;
+    align-items: center;
+    gap: 6px; 
+    
+    color: #27ae60;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+/* Ajuste del icono para alinearlo perfecto */
+.mail-icon {
+    position: relative;
+    top: -1px;
+}
+
 @keyframes fadeInContent {
     from { opacity: 0; transform: translateX(10px); }
     to { opacity: 1; transform: translateX(0); }
 }
-

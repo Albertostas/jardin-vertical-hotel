@@ -60,7 +60,8 @@ const translations = {
         plebodium_s: "Bluish fern.",
         plebodium_l: "A fern with a curly texture and spectacular bluish-green color. Its rustic and prehistoric appearance makes it very special.",
         tradescantia_s: "Purple contrast.",
-        tradescantia_l: "Stands out powerfully in any plant composition due to the intense dark purple color of its elongated leaves."
+        tradescantia_l: "Stands out powerfully in any plant composition due to the intense dark purple color of its elongated leaves.",
+        footer_credits: "Created by Albert Batista Ponce for Hotel Don Angel in 2026."
     },
     es: {
         compromiso_titulo: "Nuestro Compromiso Natural",
@@ -123,7 +124,8 @@ const translations = {
         plebodium_s: "Helecho azulado.",
         plebodium_l: "Un helecho de textura rizada y espectacular color verde azulado. Su aspecto rústico y prehistórico lo hace muy especial.",
         tradescantia_s: "Contraste púrpura.",
-        tradescantia_l: "Destaca poderosamente en cualquier composición vegetal por el intenso color púrpura oscuro de sus hojas alargadas."
+        tradescantia_l: "Destaca poderosamente en cualquier composición vegetal por el intenso color púrpura oscuro de sus hojas alargadas.",
+        footer_credits: "Creado por Albert Batista Ponce para Hotel Don Angel en 2026."
     },
     ca: {
         compromiso_titulo: "El Nostre Compromís Natural",
@@ -186,7 +188,8 @@ const translations = {
         plebodium_s: "Falguera blavosa.",
         plebodium_l: "Una falguera de textura arrissada i espectacular color verd blavós. El seu aspecte rústic i prehistòric el fa molt especial.",
         tradescantia_s: "Contrast porpra.",
-        tradescantia_l: "Destaca poderosament en qualsevol composició vegetal per l'intens color porpra fosc de les seves fulles allargades."
+        tradescantia_l: "Destaca poderosament en qualsevol composició vegetal per l'intens color porpra fosc de les seves fulles allargades.",
+        footer_credits: "Creat per Albert Batista Ponce per a Hotel Don Angel el 2026."
     },
     fr: {
         compromiso_titulo: "Notre Engagement Naturel",
@@ -249,6 +252,7 @@ const translations = {
         plebodium_s: "Fougère bleutée.",
         plebodium_l: "Une fougère à la texture frisée et à la couleur vert bleuté spectaculaire. Son aspect rustique et préhistorique la rend très spéciale.",
         tradescantia_s: "Contraste violet.",
-        tradescantia_l: "Se détache puissamment dans toute composition végétale en raison de la couleur violet foncé intense de ses feuilles allongées."
+        tradescantia_l: "Se détache puissamment dans toute composition végétale en raison de la couleur violet foncé intense de ses feuilles allongées.",
+        footer_credits: "Créé par Albert Batista Ponce pour l'Hotel Don Angel en 2026."
     }
 };
