@@ -18,14 +18,23 @@ body {
 body::before {
     content: '';
     position: fixed;
-    top: -2%; left: -2%; /* Ligeramente más grande para que los bordes borrosos no se metan en la pantalla */
-    width: 104%; height: 104%;
-    background-image: url('photos/background.webp'); /* Tu ruta optimizada */
+    
+    /* EL TRUCO DEFINITIVO: Anclamos la imagen fuera de la pantalla con píxeles fijos. 
+       Esto ignora por completo los redimensionamientos del notch y las barras del móvil. */
+    top: -150px; 
+    bottom: -150px; 
+    left: -150px; 
+    right: -150px; 
+    
+    /* Quitamos el width y height porque al anclar los 4 lados, la caja se estira sola */
+    width: auto;
+    height: auto;
+    
+    background-image: url('photos/background.webp'); 
     background-size: cover;
     background-position: center;
     z-index: -1;
     
-    /* Estado inicial y llamada a la animación */
     opacity: 0;
     filter: blur(0px);
     animation: bgCascade 1.5s ease-out forwards;

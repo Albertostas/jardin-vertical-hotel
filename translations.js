@@ -2,6 +2,7 @@ const translations = {
     en: {
         compromiso_titulo: "Our Natural Commitment",
         ecosistema_titulo: "Our Ecosystem",
+        compromiso_corto: "Our Commitment",
         compromiso_desc: "We care for the environment and your health. Our more than 150 m² of living vertical garden purifies the air in our reception in real-time.",
         co2_desc: "CO₂ Filtered since installation",
         o2_desc: "Oxygen Generated since installation",
@@ -66,6 +67,7 @@ const translations = {
     es: {
         compromiso_titulo: "Nuestro Compromiso Natural",
         ecosistema_titulo: "Nuestro Ecosistema",
+        compromiso_corto: "Nuestro Compromiso",
         compromiso_desc: "Cuidamos del medioambiente y de tu salud. Nuestros más de 150 m² de jardín vertical vivo purifican el aire de nuestra recepción en tiempo real.",
         co2_desc: "CO₂ Filtrado desde instalación",
         o2_desc: "Oxígeno Generado desde instalación",
@@ -130,6 +132,7 @@ const translations = {
     ca: {
         compromiso_titulo: "El Nostre Compromís Natural",
         ecosistema_titulo: "El Nostre Ecosistema",
+        compromiso_corto: "El Nostre Compromís",
         compromiso_desc: "Cuidem del medi ambient i de la teva salut. Els nostres més de 150 m² de jardí vertical viu purifiquen l'aire de la nostra recepció en temps real.",
         co2_desc: "CO₂ Filtrat des de la instal·lació",
         o2_desc: "Oxigen Generat des de la instal·lació",
@@ -194,6 +197,7 @@ const translations = {
     fr: {
         compromiso_titulo: "Notre Engagement Naturel",
         ecosistema_titulo: "Notre Écosystème",
+        compromiso_corto: "Notre Engagement",
         compromiso_desc: "Nous prenons soin de l'environnement et de votre santé. Nos plus de 150 m² de jardin vertical vivant purifient l'air de notre réception en temps réel.",
         co2_desc: "CO₂ Filtré depuis l'installation",
         o2_desc: "Oxygène Généré depuis l'installation",
